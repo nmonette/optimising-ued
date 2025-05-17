@@ -94,16 +94,14 @@ export const components = {pre: CodeBlock, table: Table}
   ]}
   />
 
+<HighlightedSection>
+
 ## TL;DR
 We take inspiration from both replay methods and generative methods for unsupervised environment design (UED), and 
 thus establish a method that learns the replay distribution with gradients. From this we obtain theoretical 
 convergence guarantees under light assumptions on the neural architecture, and then extend our method to have 
 strong performance on current UED benchmarks.
 
-<HighlightedSection>
-## Abstract
-
-For reinforcement learning agents to be deployed in high-risk settings, they must achieve a high level of robustness to unfamiliar scenarios. One method for improving robustness is unsupervised environment design (UED), a suite of methods aiming to maximise an agent's generalisability across configurations of an environment. In this work, we study UED from an optimisation perspective, providing stronger theoretical guarantees for practical settings than prior work. Whereas previous methods relied on guarantees *if* they reach convergence, our framework employs a nonconvex-strongly-concave objective for which we provide a *provably convergent* algorithm in the zero-sum setting. We empirically verify the efficacy of our method, outperforming prior methods on two of three environments with varying difficulties.
 </HighlightedSection>
 
 ## Motivation
