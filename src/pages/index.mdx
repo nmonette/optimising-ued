@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/Layout.astro
-title: Research Project Page Template
-description: Simple project page template for your research paper, built with Astro and Tailwind CSS
+title: An Optimisation Framework for Unsupervised Environment Design
+description: Our work on creating a Unsupervised Environment Design algorithm that starts with theoretical convergence properties and builds outewards from there.
 favicon: favicon.svg
 thumbnail: screenshot-light.png
 ---
@@ -9,21 +9,21 @@ thumbnail: screenshot-light.png
 import Header from "../components/Header.astro";
 import Video from "../components/Video.astro";
 import HighlightedSection from "../components/HighlightedSection.astro";
+import BlueHighlightedSection from "../components/BlueHighlightedSection.astro";
 import SmallCaps from "../components/SmallCaps.astro";
 import Figure from "../components/Figure.astro";
 import Image from "../components/Image.astro";
 import TwoColumns from "../components/TwoColumns.astro";
 import YouTubeVideo from "../components/YouTubeVideo.astro";
 import LaTeX from "../components/LaTeX.astro";
+import PDF from "../components/PDF.astro";
 
 import { ImageComparison } from "../components/ImageComparison.tsx";
 
-import outside from "../assets/outside.mp4";
-import transformer from "../assets/transformer.webp";
-import Splat from "../components/Splat.tsx"
-import dogsDiffc from "../assets/dogs-diffc.png"
-import dogsTrue from "../assets/dogs-true.png"
-
+import cvar2 from "../assets/cvar_line.svg";
+import ncc from "../assets/ncc.svg";
+import comparison from "../assets/ncc_comparison.svg";
+import hist from "../assets/hist_succ.svg";
 
 import CodeBlock from "../components/CodeBlock.astro";
 import Table from "../components/Table.astro";
@@ -33,139 +33,152 @@ export const components = {pre: CodeBlock, table: Table}
   title={frontmatter.title}
   authors={[
     {
-      name: "Roman Hauksson",
-      url: "https://roman.technology",
-      institution: "Independent",
+      name: "Nathan Monette",
+      url: "https://nmonette.github.io",
+      institution: "UC Irvine",
       notes: ["*", "†"],
     },
     {
-      name: "Author Two",
-      institution: "Institution Two",
-      notes: ["*", "†"],
+      name: "Alistair Letcher",
+      url:"https://aletcher.github.io/",
+      institution: "University of Oxford",
     },
     {
-      name: "Author Three",
-      institution: "Institution Three",
-      notes: ["†"],
+      name: "Michael Beukman",
+      url:"https://michaelbeukman.com/",
+      institution: "University of Oxford",
     },
     {
-      name: "Author Four",
-      institution: "Institution Four",
+      name: "Matthew T. Jackson",
+      url:"https://matthewtjackson.com/",
+      institution: "University of Oxford",
+    },
+    {
+      name: "Alexander Rutherford",
+      url:"https://amacrutherford.github.io/",
+      institution: "University of Oxford",
+    },
+    {
+      name: "Alexander D. Goldie",
+      url:"https://scholar.google.com/citations?user=wogOjBsAAAAJ&hl=en",
+      institution: "University of Oxford",
+    },
+    {
+      name: "Jakob N. Foerster",
+      url: "https://www.jakobfoerster.com/",
+      institution: "University of Oxford",
     },
   ]}
-  conference="Conference Name"
+  conference="Reinforcement Learning Conference 2025"
   notes={[
     {
       symbol: "*",
-      text: "author note one",
+      text: "Work undertaken while visiting the University of Oxford",
     },
     {
       symbol: "†",
-      text: "author note two",
+      text: "Correspondence to nmonette at uci dot edu",
     },
   ]}
   links={[
     {
       name: "Paper",
-      url: "",
+      url: "https://openreview.net/pdf?id=WnknYUybWX",
       icon: "ri:file-pdf-2-line",
     },
     {
       name: "Code",
-      url: "https://github.com/RomanHauksson/academic-project-astro-template",
+      url: "https://github.com/nmonette/NCC-UED",
       icon: "ri:github-line",
     },
-    {
-      name: "arXiv",
-      url: "",
-      icon: "academicons:arxiv",
-    },
-    {
-      name: "Bluesky",
-      url: "",
-      icon: "ri:bluesky-line"
-    }
   ]}
   />
 
-<Video source={outside} />
+## TL;DR
+We take inspiration from both replay methods and generative methods for unsupervised environment design (UED), and 
+thus establish a method that learns the replay distribution with gradients. From this we obtain theoretical 
+convergence guarantees under light assumptions on the neural architecture, and then extend our method to have 
+strong performance on current UED benchmarks.
 
 <HighlightedSection>
-
 ## Abstract
 
-This is a live demo for a template you can use to create a simple project page for your research paper. See the code for the template and instructions on how to use it yourself [here](https://github.com/RomanHauksson/academic-project-astro-template). It's made with the [Astro web framework](https://astro.build/) and styled with [Tailwind CSS](https://tailwindcss.com/). You write the content in [MDX](https://mdxjs.com/), which enables markdown formatting like **bold**, _italics_, and ~strikethrough~, as well as custom components like <SmallCaps>small caps.</SmallCaps>
-
+For reinforcement learning agents to be deployed in high-risk settings, they must achieve a high level of robustness to unfamiliar scenarios. One method for improving robustness is unsupervised environment design (UED), a suite of methods aiming to maximise an agent's generalisability across configurations of an environment. In this work, we study UED from an optimisation perspective, providing stronger theoretical guarantees for practical settings than prior work. Whereas previous methods relied on guarantees *if* they reach convergence, our framework employs a nonconvex-strongly-concave objective for which we provide a *provably convergent* algorithm in the zero-sum setting. We empirically verify the efficacy of our method, outperforming prior methods on two of three environments with varying difficulties.
 </HighlightedSection>
 
-## Figures
+## Motivation
+In its current state, UED is a very _applied_ field of research. While many of the ideas discussed in the foundational UED works like 
+<a href="https://arxiv.org/abs/2012.02096">PAIRED</a> are founded in game theoretic reasoning, in practice their use of neural networks
+for both the agent and the adversary creates an objective that is hard to analyse (theoretically similar to the 
+<a href="https://arxiv.org/abs/1406.2661">GAN</a>). Our goal in making this paper was to create a UED method that finally has guaranteed 
+convergence, and then build out from there.
 
-Use the figure component to display images, videos, equations, or any other element, with an optional caption.
+<BlueHighlightedSection>
+<center>_Why do we care about a theoretically convergent algorithm if the practical version doesn't converge?_</center>
+</BlueHighlightedSection>
+
+
+## Robustness Results
+On the <a href="https://arxiv.org/abs/2306.13831">Minigrid</a> benchmark, we have access to a regret oracle. For this setting, our practical 
+(not even provably convergent) method manages to strongly outperform any of our baselines!
 
 <Figure>
-  <Image slot="figure" source={transformer} altText="Diagram of the transformer deep learning architecture." />
-  <span slot="caption">Diagram of the transformer deep learning architecture.</span>
+  <Image slot="figure" source={cvar2} altText="Our alpha-CvAR results" width="150px" height="150px"/>
+  <span slot="caption">Our <LaTeX inline formula="\alpha"/>-CVaR evaluation on the Minigrid Benchmark.</span>
 </Figure>
 
-## Image comparison slider
+## Method
+Simply put, our algorithmic design is a hybrid of <a href="https://arxiv.org/abs/2010.03934">PLR</a>, which curates a distribution of levels to be replayed,
+and <a href="https://arxiv.org/abs/2012.02096">PAIRED</a>, which learns a level generator. The way we do this is by _optimising_ the replay distribution with 
+gradients!
 
-An interactive, accessible slider component with keyboard navigation.
 <Figure>
-  <ImageComparison slot="figure" client:load imageUrlOne={dogsDiffc.src} imageUrlTwo={dogsTrue.src} altTextOne="Photo of two dogs running side-by-side in shallow water, lossily compressed using the DiffC algorithm" altTextTwo="Original photo of two dogs running side-by-side in shallow water" />
-  <span slot="caption">A photo of two dogs running side-by-side in shallow water, lossily compressed using the <a href="https://jeremyiv.github.io/diffc-project-page/">DiffC algorithm</a>.</span>
+  <Image slot="figure" source={ncc} altText="A diagram of our method's training loop." width="150px" height="150px"/>
+  <span slot="caption">Our method's training loop, which involves gradient optimisation for both the agent and adversary.</span>
 </Figure>
 
-## Two columns
+We then extend our method to include a dynamic level buffer similar to <a href="https://arxiv.org/abs/2010.03934">PLR</a>, and also use more contemporary
+model-free RL methods standard to UED (like <a href="https://arxiv.org/abs/1707.06347">PPO</a>).
 
-Use the two columns component to display two columns of content. In this example, the first column contains a figure with a YouTube video and the second column contains a figure with a custom [React](https://react.dev/) component. By default, they display side by side, but if the screen is narrow enough (for example, on mobile), they're arranged vertically.
+## Analysis
+We provide theoretical and empirical analysis throughout our paper, with regards to convergence, as well as practicalities such as 
+the choice of score function.
 
-<TwoColumns>
-  <Figure slot="left">
-    <YouTubeVideo slot="figure" videoId="wjZofJX0v4M" />
-    <span slot="caption">Take a look at this YouTube video.</span>
-  </Figure>
-  <Figure slot="right">
-    <Splat slot="figure" client:idle />
-    <span slot="caption">Now look at this <a href="https://en.wikipedia.org/wiki/Gaussian_splatting">Gaussian splat</a>, rendered with a React component.</span>
-  </Figure>
-</TwoColumns>
+### Theoretical vs. Practical
+We provide a formal proof for our rate of convergence under mild assumptions for the neural architecture. 
+When following the theoretical regime, our method obtains suboptimal performance, but decent!
+<Figure>
+  <Image slot="figure" source={comparison} altText="A comparison of performance of different types of our algorithm." width="10px" height="10px"/>
+  <span slot="caption">Minigrid performance with different versions of our method (NCC-T is the theoretical version and NCC-Learn/NCC-Reg are the practical variants with learnability and regret respectively).</span>
+</Figure>
 
-## Heading levels
+### A new score function
+<a href="https://arxiv.org/abs/2408.15099">SFL</a> analysed different level _score_ functions, and determined that _learnability_, otherwise known 
+as the variance of level-success in a goal-based environment, as being better for learning than regret approximations. We generalise this notion to the variance of returns of 
+a deterministic environment, however we scale this with a gaussian to help focus on levels of intermediate difficulty. We repeat the analysis of SFL 
+below on this new score function, _generalised learnability_.
 
-Use headings to divide your content into sections.
+<Figure>
+  <Image slot="figure" source={hist} altText="A histogram that compares our score function and solve rate" width="10px" height="10px"/>
+  <span slot="caption">A comparison between our new score function (black) and solve rates on Minigrid (blue).</span>
+</Figure>
 
-### Heading 3
+## What's Next?
+We are excited to see any further work building off of our work! Some research directions include using bilevel optimisation theoretically 
+to analyse our setting under any score function, as well as analysing more practical variants of our method, such as with better gradient 
+estimators than <a href="https://link.springer.com/article/10.1007/BF00992696">REINFORCE</a>, or to handle nonstationarity with a dynamic 
+buffer. Please don't hestitate to reach out if you have any questions!
 
-Go down a level to heading 3...
-
-#### Heading 4
-
-...and down again to heading 4.
-
-## LaTeX
-
-You can also add LaTeX formulas, rendered during the build process using [KaTeX](https://katex.org/) so they're quick to load for visitors of your project page. You can write them inline, like this: <LaTeX inline formula="a^2 + b^2 = c^2" />. Or, you can write them as a block:
-
-<LaTeX formula="\int_a^b f(x) dx" />
-
-## Tables
-
-You can add simple tables using [GitHub Flavored Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables):
-
-| Model | Accuracy | F1 score | Training time (hours) |
-| :--- | :---: | :---: | :---: |
-| BERT-base | 0.89 | 0.87 | 4.5 |
-| RoBERTa-large | 0.92 | 0.91 | 7.2 |
-| DistilBERT | 0.86 | 0.84 | 2.1 |
-| XLNet | 0.90 | 0.89 | 6.8 |
 
 ## BibTeX citation
 
 ```bibtex
-@misc{roman2024academic,
-  author = "{Roman Hauksson}",
-  title = "Academic Project Page Template",
-  year = "2024",
-  howpublished = "\url{https://research-template.roman.technology}",
+@inproceedings{
+  monette2025an,
+  title={An Optimisation Framework for Unsupervised Environment Design},
+  author={Nathan Monette and Alistair Letcher and Michael Beukman and Matthew Thomas Jackson and Alexander Rutherford and Alexander David Goldie and Jakob Nicolaus Foerster},
+  booktitle={Reinforcement Learning Conference},
+  year={2025},
+  url={https://openreview.net/forum?id=WnknYUybWX}
 }
 ```

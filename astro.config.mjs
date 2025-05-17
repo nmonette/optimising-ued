@@ -17,5 +17,7 @@ export default defineConfig({
         dark: 'github-dark',
       },
     }
-  }
+  },
+  site: 'https://optimising-ued.github.io',
+  base: 'optimising-ued',
 });
