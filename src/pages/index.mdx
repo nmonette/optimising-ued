@@ -120,7 +120,7 @@ convergence, and then build out from there.
 
 ## Robustness Results
 On the <a href="https://arxiv.org/abs/2306.13831">Minigrid</a> benchmark, we have access to a regret oracle. For this setting, our practical 
-(not even provably convergent) method manages to strongly outperform any of our baselines!
+(not even provably convergent) method (NCC-Reg) manages to strongly outperform any of our baselines!
 
 <Figure>
   <Image slot="figure" source={cvar2} altText="Our alpha-CvAR results" width="150px" height="150px"/>
@@ -146,7 +146,7 @@ the choice of score function.
 
 ### Theoretical vs. Practical
 We provide a formal proof for our rate of convergence under mild assumptions for the neural architecture. 
-When following the theoretical regime, our method obtains suboptimal performance, but decent!
+When following the theoretical regime (NCC-T), our method  obtains suboptimal performance, but decent!
 <Figure>
   <Image slot="figure" source={comparison} altText="A comparison of performance of different types of our algorithm." width="10px" height="10px"/>
   <span slot="caption">Minigrid performance with different versions of our method (NCC-T is the theoretical version and NCC-Learn/NCC-Reg are the practical variants with learnability and regret respectively).</span>
