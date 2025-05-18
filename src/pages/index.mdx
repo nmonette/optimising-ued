@@ -111,9 +111,9 @@ for both the agent and the adversary creates an objective that is hard to analys
 <a href="https://arxiv.org/abs/1406.2661">GAN</a>). Our goal in making this paper was to create a UED method that finally has guaranteed 
 convergence, and then build out from there.
 
-<BlueHighlightedSection>
-<center style="color:white">_Why do we care about a theoretically convergent algorithm if the practical version doesn't converge?_</center>
-</BlueHighlightedSection>
+<div style="border: 5px solid grey; background-color: black; color: white; padding: 10px; text-align: center;">
+  <i>Why do we care about a theoretically convergent algorithm if the practical version doesn't converge?</i>
+</div>
 
 
 ## Robustness Results
@@ -126,7 +126,7 @@ On the <a href="https://arxiv.org/abs/2306.13831">Minigrid</a> benchmark, we hav
 </Figure>
 
 ## Method
-Simply put, our algorithmic design is a hybrid of <a href="https://arxiv.org/abs/2010.03934">PLR</a>, which curates a distribution of levels to be replayed,
+Our algorithmic design is a hybrid of <a href="https://arxiv.org/abs/2010.03934">PLR</a>, which curates a distribution of levels to be replayed,
 and <a href="https://arxiv.org/abs/2012.02096">PAIRED</a>, which learns a level generator. The way we do this is by _optimising_ the replay distribution with 
 gradients!
 
@@ -144,7 +144,7 @@ the choice of score function.
 
 ### Theoretical vs. Practical
 We provide a formal proof for our rate of convergence under mild assumptions for the neural architecture. 
-When following the theoretical regime (NCC-T), our method  obtains suboptimal performance, but decent!
+When following the theoretical regime (NCC-T), our method obtains suboptimal performance, but decent!
 <Figure>
   <Image slot="figure" source={comparison} altText="A comparison of performance of different types of our algorithm." width="10px" height="10px"/>
   <span slot="caption">Minigrid performance with different versions of our method (NCC-T is the theoretical version and NCC-Learn/NCC-Reg are the practical variants with learnability and regret respectively).</span>
@@ -162,7 +162,7 @@ below on this new score function, _generalised learnability_.
 </Figure>
 
 ## What's Next?
-We are excited to see any further work building off of ours! Some research directions include using bilevel optimisation theoretically 
+We are excited to see further work building off of ours! Some research directions include using bilevel optimisation theoretically 
 to analyse our setting under any score function, as well as analysing more practical variants of our method, such as with better gradient 
 estimators than <a href="https://link.springer.com/article/10.1007/BF00992696">REINFORCE</a>. Another direction would be to handle the 
 nonstationarity associated with a dynamic buffer. Please don't hesitate to reach out if you have any questions!
