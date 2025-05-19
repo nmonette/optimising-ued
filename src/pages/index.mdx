@@ -118,7 +118,7 @@ convergence, and then build out from there.
 
 ## Robustness Results
 On the <a href="https://arxiv.org/abs/2306.13831">Minigrid</a> benchmark, we have access to a regret oracle. For this setting, our practical 
-(not even provably convergent) method (NCC-Reg) manages to strongly outperform any of our baselines!
+(not even provably convergent) method (NCC-Reg) manages to strongly outperform all of our baselines!
 
 <Figure>
   <Image slot="figure" source={cvar2} altText="Our alpha-CvAR results" width="150px" height="150px"/>
@@ -126,9 +126,8 @@ On the <a href="https://arxiv.org/abs/2306.13831">Minigrid</a> benchmark, we hav
 </Figure>
 
 ## Method
-Our algorithmic design is a hybrid of <a href="https://arxiv.org/abs/2010.03934">PLR</a>, which curates a distribution of levels to be replayed,
-and <a href="https://arxiv.org/abs/2012.02096">PAIRED</a>, which learns a level generator. The way we do this is by _optimising_ the replay distribution with 
-gradients!
+Our algorithmic design is reminiscent of <a href="https://arxiv.org/abs/2010.03934">PLR</a>, which curates a distribution of levels to be replayed, but in order 
+to attain guarantees, we _optimise_ the replay distribution with gradients!
 
 <Figure>
   <Image slot="figure" source={ncc} altText="A diagram of our method's training loop." width="150px" height="150px"/>
@@ -144,7 +143,8 @@ the choice of score function.
 
 ### Theoretical vs. Practical
 We provide a formal proof for our rate of convergence under mild assumptions for the neural architecture. 
-When following the theoretical regime (NCC-T), our method obtains suboptimal performance, but decent!
+Despite following stronger assumptions than our practical method, our method still remains competitive 
+in the theoretical regime (NCC-T)!
 <Figure>
   <Image slot="figure" source={comparison} altText="A comparison of performance of different types of our algorithm." width="10px" height="10px"/>
   <span slot="caption">Minigrid performance with different versions of our method (NCC-T is the theoretical version and NCC-Learn/NCC-Reg are the practical variants with learnability and regret respectively).</span>
@@ -152,7 +152,7 @@ When following the theoretical regime (NCC-T), our method obtains suboptimal per
 
 ### A new score function
 <a href="https://arxiv.org/abs/2408.15099">SFL</a> analysed different level _score_ functions, and determined that _learnability_, otherwise known 
-as the variance of level-success in a goal-based environment, as being better for learning than regret approximations. We generalise this notion to the variance of returns of 
+as the variance of level-success in a goal-based environment, is better for learning than regret approximations. We generalise this notion to the variance of returns of 
 a deterministic environment, however we scale this with a gaussian to help focus on levels of intermediate difficulty. We repeat the analysis of SFL 
 below on this new score function, _generalised learnability_.
 
