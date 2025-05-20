@@ -97,18 +97,19 @@ export const components = {pre: CodeBlock, table: Table}
 <HighlightedSection>
 
 ## TL;DR
-We take inspiration from both replay methods and generative methods for unsupervised environment design (UED), and 
-thus establish a method that learns the replay distribution with gradients. From this we obtain theoretical 
-convergence guarantees under light assumptions on the neural architecture, and then extend our method to have 
-strong performance on current UED benchmarks.
+Unsupervised Environment Design (UED) is a reinforcement learning paradigm that aims to train an agent to be strong across 
+variants of a configurable environment (levels). UED is often seen as a game between the _agent_ that interacts with the environment
+and the _adversary_ that proposes training levels. Our method formally examines this concept, and alters the optimisation 
+process in a way that is compliant with provably convergent methods from <a href="https://arxiv.org/pdf/2408.11974">the optimisation 
+literature</a>. We then loosen our assumptions to make empirical gains on prior UED methods.
 
 </HighlightedSection>
 
 ## Motivation
-In its current state, UED is a very _applied_ field of research. While many of the ideas discussed in the foundational UED works like 
-<a href="https://arxiv.org/abs/2012.02096">PAIRED</a> are founded in game theoretic reasoning, in practice their use of neural networks
-for both the agent and the adversary creates an objective that is hard to analyse (theoretically similar to the 
-<a href="https://arxiv.org/abs/1406.2661">GAN</a>). Our goal in making this paper was to create a UED method that finally has guaranteed 
+Recent UED research has focused on optimizing performance on popular benchmarks, but had forgone theoretical clarity as a result. While many of the 
+ideas discussed in the foundational UED works like <a href="https://arxiv.org/abs/2012.02096">PAIRED</a> are founded in game theoretic reasoning, 
+in practice their use of neural networks for both the agent and the adversary creates an objective that is hard to analyse (theoretically similar 
+to the <a href="https://arxiv.org/abs/1406.2661">GAN</a>). Our goal in making this paper was to create a UED method that finally has guaranteed 
 convergence, and then build out from there.
 
 <div style="border: 5px solid grey; background-color: black; color: white; padding: 10px; text-align: center;">
@@ -117,7 +118,8 @@ convergence, and then build out from there.
 
 
 ## Robustness Results
-On the <a href="https://arxiv.org/abs/2306.13831">Minigrid</a> benchmark, we have access to a regret oracle. For this setting, our practical 
+In our method, the adversary's objective is the expected _score_ of the policy over the levels, namely meaning the policy's room for improvement on each level. 
+On the <a href="https://arxiv.org/abs/2306.13831">Minigrid</a> benchmark, we have access to a regret oracle to use for the score function. For this setting, our practical 
 (not even provably convergent) method (NCC-Reg) manages to strongly outperform all of our baselines!
 
 <Figure>
@@ -127,7 +129,8 @@ On the <a href="https://arxiv.org/abs/2306.13831">Minigrid</a> benchmark, we hav
 
 ## Method
 Our algorithmic design is reminiscent of <a href="https://arxiv.org/abs/2010.03934">PLR</a>, which curates a distribution of levels to be replayed, but in order 
-to attain guarantees, we _optimise_ the replay distribution with gradients!
+to attain guarantees, we optimise the adversary with the gradient of the policy's entropy-regularised score on the levels! By using <a href="https://arxiv.org/pdf/2408.11974">_two-timescale gradient dynamics_</a>, 
+we are then able to prove convergence for the agent.
 
 <Figure>
   <Image slot="figure" source={ncc} altText="A diagram of our method's training loop." width="150px" height="150px"/>
@@ -135,7 +138,8 @@ to attain guarantees, we _optimise_ the replay distribution with gradients!
 </Figure>
 
 We then extend our method to include a dynamic level buffer similar to <a href="https://arxiv.org/abs/2010.03934">PLR</a>, and also use more contemporary
-model-free RL methods standard to UED (like <a href="https://arxiv.org/abs/1707.06347">PPO</a>).
+model-free RL methods standard to UED (like <a href="https://arxiv.org/abs/1707.06347">PPO</a>). Even though these additions break the assumptions of our theory, 
+they improve empirical performance.
 
 ## Analysis
 We provide theoretical and empirical analysis throughout our paper, with regards to convergence, as well as practicalities such as 
